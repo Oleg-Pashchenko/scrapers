@@ -31,9 +31,9 @@ update_btn.add(KeyboardButton('Обновить'))
 
 def get_content():
     item = presentation_scraper.get_item()
-    message = f"""<b>Данные из источника:\nID:</b> {item.id}\n<b>Цена:</b> {item.price}\n<b>Название:</b> """ \
+    message = f"""<b>Данные из маркетплейса:\nID:</b> {item.id}\n<b>Цена:</b> {item.price}\n<b>Название:</b> """ \
      f"""{item.name.strip()}\n<a href="{item.link}">Посмотреть товар</a>\n""" \
-    f"""----------------------------------------------------\n<b>Данные маркетплейса:\nID:</b> {item.source_item.id}\n<b>Цена:</b> {item.source_item.price}\n""" \
+    f"""----------------------------------------------------\n<b>Данные из источника:\nID:</b> {item.source_item.id}\n<b>Цена:</b> {item.source_item.price}\n""" \
     f"""<b>Название:</b> {item.source_item.name.strip()}\n<a href="{item.source_item.link}">Посмотреть товар</a>
     """
     markup = InlineKeyboardMarkup()
