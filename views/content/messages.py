@@ -26,7 +26,7 @@ def download_image(link: str, index):
     return filename
 
 
-update_btn = ReplyKeyboardMarkup()
+update_btn = ReplyKeyboardMarkup(resize_keyboard=True)
 update_btn.add(KeyboardButton('Обновить'))
 
 def get_content():
