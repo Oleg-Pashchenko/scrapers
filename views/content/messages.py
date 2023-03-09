@@ -1,5 +1,6 @@
 import requests
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, ReplyKeyboardMarkup, \
+    KeyboardButton
 from PIL import Image
 from db.presentation import PresentationScraper
 
@@ -25,6 +26,8 @@ def download_image(link: str, index):
     return filename
 
 
+update_btn = ReplyKeyboardMarkup()
+update_btn.add(KeyboardButton('Обновить'))
 
 def get_content():
     item = presentation_scraper.get_item()

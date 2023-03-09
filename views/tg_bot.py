@@ -26,8 +26,10 @@ async def delete_prev_message(message: types.Message):
 async def send_question(message):
     message_text, buttons, image_1, image_2 = get_content()
     await bot.send_media_group(message.chat.id, media=[image_1, image_2])
-    await bot.send_message(message.chat.id, message_text, reply_markup=buttons, parse_mode="HTML")
-
+    try:
+        await bot.send_message(message.chat.id, message_text, reply_markup=buttons, parse_mode="HTML")
+    except:
+        await bot.send_message(message.chat.id, 'Описание отсутствует', reply_markup=buttons)
 
 async def add_to_execute(data):
     await data.answer("Добавлено!")
@@ -59,8 +61,10 @@ async def handle_document(message: types.Message):
 
 
 async def handle_messages(message: types.Message):
+    if message.text == 'Обновить':
+        await send_question(message)
     if message.text == '/start':
-        await bot.send_message(message.chat.id, messages.HELLO_MESSAGE)
+        await bot.send_message(message.chat.id, messages.HELLO_MESSAGE, reply_markup=messages.update_btn)
         if message.chat.id in ADMIN_LIST:
             await bot.send_message(message.chat.id, messages.ADMIN_MESSAGE)
         await send_question(message)

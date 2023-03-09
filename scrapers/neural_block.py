@@ -24,7 +24,7 @@ def compare_images(img1, img2):
     features2 = model.predict(img2[tf.newaxis, ...])
     comparison = tf.reduce_mean(tf.square(features1 - features2))
     print(f"{comparison=}")
-    return bool(comparison < 1)
+    return bool(comparison < 0.85)
 
 
 def neural_block_scraper():
