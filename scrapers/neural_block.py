@@ -1,9 +1,5 @@
 import time
-from datetime import datetime
-
 import numpy as np
-
-from db.marketplace import MarketPlaceScraper
 from db.neural import NeuralScraper
 import tensorflow as tf
 
@@ -38,10 +34,8 @@ def neural_block_scraper():
         if not source_item:
             time.sleep(5)
             continue
-        #items = scrape(source_item)
-        #print(items)
-        now = datetime.now()
-        #if not items:
-        #    source_db.save_to_error_mk('ozon_error', source_item, now)
-        #for item in items:
-        source_db.write_presentation(source_item)
+        if compare_images(source_item.photo, source_item.source_item.photo):
+            source_db.write_presentation(source_item)
+        else:
+            source_db.write_error(source_item)
+
