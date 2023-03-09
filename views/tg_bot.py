@@ -80,9 +80,10 @@ async def handle_messages(message: types.Message):
         users = managers_scraper.get_statistic()
         response = "Статистика за сегодня:"
         for user in users:
-            response += (
-                f"\n{user.name}: {user.history[str(datetime.datetime.now().date())]}"
-            )
+            if str(datetime.datetime.now().date()) in user.history.keys():
+                response += (
+                    f"\n{user.name}: {user.history[str(datetime.datetime.now().date())]}"
+                )
         await message.answer(response)
     if message.text == "Обновить":
         await send_question(message)

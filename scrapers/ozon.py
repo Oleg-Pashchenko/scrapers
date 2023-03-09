@@ -13,6 +13,7 @@ from misc.secrets import secret_info
 
 def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
     try:
+    #if True:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
@@ -36,6 +37,7 @@ def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
         ozon_items = []
         for item in items:
             try:
+            #if True:
                 description_block = str(item)
                 try:
                     price = description_block.split("₽")[0].split(">")[-1]
@@ -43,16 +45,20 @@ def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
                         "".join(price.replace("thinsp;", "").replace(",", ".").split())
                     )
                 except:
-                    price = float(-1)
+                    continue
                 descr = (
                     description_block.split("</span></span></a>")[0]
                     .split("<span>")[-1]
                     .strip()
                 )
-                ozon_item_link = item.findNext("a")
-                img = ozon_item_link.find("img").get("src")
-                ozon_item_link = "https://www.ozon.ru" + ozon_item_link.get("href")
+                ozon_item_link_el = item.findNext("a")
+                if not ozon_item_link_el:
+                    continue
+                ozon_item_link = "https://www.ozon.ru" + ozon_item_link_el.get("href")
                 ozon_id = ozon_item_link.split("/?")[0].split("-")[-1]
+                if ozon_id == 'https://www.ozon.ruhttps://job.ozon.ru/' or ozon_item_link_el.find("img") is None:
+                    continue
+                img = ozon_item_link_el.find("img").get("src")
                 ozon_items.append(
                     MarketPlaceItem(
                         id=int(ozon_id),

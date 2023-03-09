@@ -50,6 +50,7 @@ class ManagersScraper:
         self.cur.execute(f"SELECT * FROM {self.table_name}", ())
         records = self.cur.fetchall()
         users = []
+
         for record in records:
             users.append(
                 User(id=record[0], name=record[1], history=json.loads(record[2]))

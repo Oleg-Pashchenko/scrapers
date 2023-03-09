@@ -1,7 +1,7 @@
 import time
 import numpy as np
 from db.neural import NeuralScraper
-import tensorflow as tf
+#import tensorflow as tf
 
 from views.content import messages
 
@@ -32,7 +32,6 @@ def neural_block_scraper():
     while True:
         source_item = source_db.get_item()
         if not source_item:
-            print("Not source item")
             time.sleep(5)
             continue
         source_db.write_presentation(source_item)
