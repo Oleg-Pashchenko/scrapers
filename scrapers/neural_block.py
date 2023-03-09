@@ -32,6 +32,7 @@ def neural_block_scraper():
     while True:
         source_item = source_db.get_item()
         if not source_item:
+            print('Not source item')
             time.sleep(5)
             continue
         if compare_images(source_item.photo, source_item.source_item.photo):
