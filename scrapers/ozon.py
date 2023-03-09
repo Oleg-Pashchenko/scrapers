@@ -7,10 +7,14 @@ from selenium.webdriver.common.by import By
 from db.marketplace import MarketPlaceScraper
 from misc.models import SourceItem, MarketPlaceItem
 from bs4 import BeautifulSoup
+from misc.secrets import secret_info
 
 def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
     try:
-        driver = webdriver.Chrome()
+        if secret_info.IS_SERVER == '+':
+            driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver')
+        else:
+            driver = webdriver.Chrome()
         driver.get(f"https://www.ozon.ru/search/?text={source_item.name}&from_global=true")
         soup = BeautifulSoup(driver.page_source, features='html.parser')
         driver.quit()

@@ -21,7 +21,8 @@ def load_secrets() -> SecretInfo:
         POSTGRES_PORT=os.getenv("POSTGRES_PORT"),
         POSTGRES_DBNAME=os.getenv("POSTGRES_DBNAME"),
         TELEGRAM_BOT_TOKEN=os.getenv("TELEGRAM_BOT_TOKEN"),
-        ADMIN_LIST=admin_list
+        ADMIN_LIST=admin_list,
+        IS_SERVER=os.getenv('IS_SERVER')
     )
 
 

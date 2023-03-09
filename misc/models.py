@@ -31,6 +31,7 @@ class SecretInfo:
     POSTGRES_DBNAME: str
     TELEGRAM_BOT_TOKEN: str
     ADMIN_LIST: list[int]
+    IS_SERVER: str
 
 
 @dataclasses.dataclass
