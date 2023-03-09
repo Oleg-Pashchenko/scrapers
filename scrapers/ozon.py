@@ -2,6 +2,7 @@ import datetime
 import time
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
 from db.marketplace import MarketPlaceScraper
@@ -11,10 +12,13 @@ from misc.secrets import secret_info
 
 def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
     try:
+        chrome_options = Options()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
         if secret_info.IS_SERVER == '+':
-            driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver')
+            driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', chrome_options=chrome_options)
         else:
-            driver = webdriver.Chrome()
+            driver = webdriver.Chrome(chrome_options=chrome_options)
         driver.get(f"https://www.ozon.ru/search/?text={source_item.name}&from_global=true")
         soup = BeautifulSoup(driver.page_source, features='html.parser')
         driver.quit()
