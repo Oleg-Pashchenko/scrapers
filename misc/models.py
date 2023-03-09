@@ -39,3 +39,10 @@ class ExcelImportStats:
     inserted_count: int
     positions_count: int
     from_file_count: int
+
+
+@dataclasses.dataclass
+class User:
+    id: int
+    name: str
+    history: dict

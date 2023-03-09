@@ -181,6 +181,17 @@ def create_result_error_table_statement():
     """
 
 
+def create_managers_table_statement():
+    return """
+        CREATE TABLE IF NOT EXISTS managers (
+            id BIGINT NOT NULL,
+            name TEXT,
+            history TEXT
+        )
+    """
+
+
+
 def initialize():
     conn = psycopg2.connect(host=secret_info.POSTGRES_HOST, database=secret_info.POSTGRES_DBNAME,
                             user=secret_info.POSTGRES_USER, password=secret_info.POSTGRES_PASSWORD)
@@ -197,5 +208,6 @@ def initialize():
     cursor.execute(create_presentation_error_table_statement())
     cursor.execute(create_result_table_statement())
     cursor.execute(create_result_error_table_statement())
+    cursor.execute(create_managers_table_statement())
     conn.commit()
     conn.close()

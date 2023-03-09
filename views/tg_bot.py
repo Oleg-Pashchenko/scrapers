@@ -1,5 +1,7 @@
 import asyncio
+import datetime
 
+from db.managers import ManagersScraper
 from db.presentation import PresentationScraper
 from misc import excel_import
 
@@ -15,12 +17,12 @@ ADMIN_LIST = secret_info.ADMIN_LIST
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 presentation_scraper = PresentationScraper()
-
+managers_scraper = ManagersScraper()
 
 async def delete_prev_message(message: types.Message):
     await bot.delete_message(message.chat.id, message.message_id)
     await bot.delete_message(message.chat.id, message.message_id - 1)
-    await bot.delete_message(message.chat.id, message.message_id - 2    )
+    await bot.delete_message(message.chat.id, message.message_id - 2)
 
 
 async def send_question(message):
@@ -32,6 +34,11 @@ async def send_question(message):
         await bot.send_message(message.chat.id, 'Описание отсутствует', reply_markup=buttons)
 
 async def add_to_execute(data):
+    user = managers_scraper.get_user(data.message.chat.id)
+    if not str(datetime.datetime.now().date()) in user.history.keys():
+        user.history[str(datetime.datetime.now().date())] = 0
+    user.history[str(datetime.datetime.now().date())] += 1
+    managers_scraper.update_user(user)
     await data.answer("Добавлено!")
     await delete_prev_message(data.message)
     presentation_scraper.write_result(data.data.split('_')[1])
@@ -61,9 +68,17 @@ async def handle_document(message: types.Message):
 
 
 async def handle_messages(message: types.Message):
+    if message.text == '/stats':
+        users = managers_scraper.get_statistic()
+        response = 'Статистика за сегодня:'
+        for user in users:
+            response += f'\n{user.name}: {user.history[str(datetime.datetime.now().date())]}'
+        await message.answer(response)
     if message.text == 'Обновить':
         await send_question(message)
     if message.text == '/start':
+        if not managers_scraper.get_user(message.chat.id):
+            managers_scraper.add_user(message.chat.id, f'{message.chat.first_name} {message.chat.last_name}')
         await bot.send_message(message.chat.id, messages.HELLO_MESSAGE, reply_markup=messages.update_btn)
         if message.chat.id in ADMIN_LIST:
             await bot.send_message(message.chat.id, messages.ADMIN_MESSAGE)
