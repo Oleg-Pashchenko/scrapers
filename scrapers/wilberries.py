@@ -32,7 +32,7 @@ def scrape(source_item: SourceItem):
                             link=f'https://www.wildberries.ru/catalog/{i["id"]}/detail.aspx',
                             photo=photo_url,
                             name=i['name'],
-                            price=i['salePriceU'] / 100,
+                            price=int(i['salePriceU']) / 100,
                             source_item=source_item
                         ))
                         break
