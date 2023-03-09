@@ -20,6 +20,7 @@ def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
         else:
             driver = webdriver.Chrome(chrome_options=chrome_options)
         driver.get(f"https://www.ozon.ru/search/?text={source_item.name}&from_global=true")
+        time.sleep(3)
         soup = BeautifulSoup(driver.page_source, features='html.parser')
         driver.quit()
         items = soup.find('div', {'class': 'widget-search-result-container'}).find('div').find_all('div')
