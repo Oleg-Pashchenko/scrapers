@@ -26,7 +26,7 @@ def scrape(item_code: int) -> SourceItem | None:
         return SourceItem(name=name, link=link, photo=img, id=item_code, price=price,
                           creation_date=datetime.datetime.now())
     except Exception as e:
-        logging.log(logging.INFO, e)
+        print(e)
         return None
 
 

@@ -37,11 +37,11 @@ def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
                     )
                 )
             except Exception as e:
-                logging.log(logging.INFO, e)
+                print(e)
                 pass
         driver.quit()
     except Exception as e:
-        logging.log(logging.INFO, e)
+        print(e)
         ozon_items = []
     return ozon_items
 

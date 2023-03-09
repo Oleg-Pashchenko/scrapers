@@ -1,5 +1,5 @@
 import datetime
-import logging
+
 import time
 
 import requests
@@ -37,10 +37,10 @@ def scrape(source_item: SourceItem):
                         ))
                         break
             except Exception as e:
-                logging.log(logging.INFO, e)
+                print(e)
                 pass
     except Exception as e:
-        logging.log(logging.INFO, e)
+        print(e)
         return []
     return result
 
