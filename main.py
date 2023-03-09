@@ -19,11 +19,10 @@ def app():
     threads = [
         oreht_thread,
         ozon_thread,
-
         neural_block_thread,
         telegram_bot_thread,
         site_thread,
-    ]# wilberries_thread,
+    ]  # wilberries_thread,
     [t.start() for t in threads]
     [t.join() for t in threads]
 

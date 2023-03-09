@@ -32,7 +32,7 @@ def neural_block_scraper():
     while True:
         source_item = source_db.get_item()
         if not source_item:
-            print('Not source item')
+            print("Not source item")
             time.sleep(5)
             continue
         source_db.write_presentation(source_item)
@@ -41,4 +41,3 @@ def neural_block_scraper():
             source_db.write_presentation(source_item)
         else:
             source_db.write_error(source_item)
-

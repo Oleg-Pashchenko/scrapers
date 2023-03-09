@@ -8,7 +8,7 @@ from misc.models import SecretInfo
 
 def load_secrets() -> SecretInfo:
     dotenv.load_dotenv()
-    admins = os.getenv('ADMIN_LIST')
+    admins = os.getenv("ADMIN_LIST")
     admin_list = []
     try:
         admin_list = json.loads(admins)
@@ -22,7 +22,7 @@ def load_secrets() -> SecretInfo:
         POSTGRES_DBNAME=os.getenv("POSTGRES_DBNAME"),
         TELEGRAM_BOT_TOKEN=os.getenv("TELEGRAM_BOT_TOKEN"),
         ADMIN_LIST=admin_list,
-        IS_SERVER=os.getenv('IS_SERVER')
+        IS_SERVER=os.getenv("IS_SERVER"),
     )
 
 

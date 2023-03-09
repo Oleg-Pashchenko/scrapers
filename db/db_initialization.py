@@ -61,6 +61,7 @@ def create_ozon_error_table_statement():
         )
     """
 
+
 def create_wilberries_error_table_statement():
     return """
         CREATE TABLE IF NOT EXISTS wilberries_error (
@@ -92,6 +93,7 @@ def create_neural_table_statement():
         )
     """
 
+
 def create_neural_error_table_statement():
     return """
         CREATE TABLE IF NOT EXISTS neural_error (
@@ -109,6 +111,7 @@ def create_neural_error_table_statement():
             check_date TIMESTAMP NOT NULL 
         )
     """
+
 
 def create_presentation_table_statement():
     return """
@@ -146,6 +149,7 @@ def create_presentation_error_table_statement():
         )
     """
 
+
 def create_result_table_statement():
     return """
         CREATE TABLE IF NOT EXISTS result (
@@ -162,6 +166,8 @@ def create_result_table_statement():
             source_creation_date TIMESTAMP NOT NULL
         )
     """
+
+
 def create_result_error_table_statement():
     return """
         CREATE TABLE IF NOT EXISTS result_error (
@@ -191,10 +197,13 @@ def create_managers_table_statement():
     """
 
 
-
 def initialize():
-    conn = psycopg2.connect(host=secret_info.POSTGRES_HOST, database=secret_info.POSTGRES_DBNAME,
-                            user=secret_info.POSTGRES_USER, password=secret_info.POSTGRES_PASSWORD)
+    conn = psycopg2.connect(
+        host=secret_info.POSTGRES_HOST,
+        database=secret_info.POSTGRES_DBNAME,
+        user=secret_info.POSTGRES_USER,
+        password=secret_info.POSTGRES_PASSWORD,
+    )
     cursor = conn.cursor()
     cursor.execute(create_oreht_table_statement())
     cursor.execute(create_oreht_error_table_statement())

@@ -21,20 +21,22 @@ def scrape(source_item: SourceItem):
                     vol = str(i["id"])[:3]
                 for j in range(1, 11):
                     if j < 10:
-                        basket = f'0{j}'
+                        basket = f"0{j}"
                     else:
                         basket = j
                     photo_url = f'https://basket-{basket}.wb.ru/vol{vol}/part{str(i["id"])[:-3]}/{i["id"]}/images/c516x688/1.jpg'
                     res = requests.get(photo_url)
                     if res.status_code == 200:
-                        result.append(MarketPlaceItem(
-                            id=i['id'],
-                            link=f'https://www.wildberries.ru/catalog/{i["id"]}/detail.aspx',
-                            photo=photo_url,
-                            name=i['name'],
-                            price=int(i['salePriceU']) / 100,
-                            source_item=source_item
-                        ))
+                        result.append(
+                            MarketPlaceItem(
+                                id=i["id"],
+                                link=f'https://www.wildberries.ru/catalog/{i["id"]}/detail.aspx',
+                                photo=photo_url,
+                                name=i["name"],
+                                price=int(i["salePriceU"]) / 100,
+                                source_item=source_item,
+                            )
+                        )
                         break
             except Exception as e:
                 print("Wilberries:", e)
@@ -46,7 +48,7 @@ def scrape(source_item: SourceItem):
 
 
 def wilberries_scraper():
-    source_db = MarketPlaceScraper(table_name='wilberries')
+    source_db = MarketPlaceScraper(table_name="wilberries")
     while True:
         source_item = source_db.get_source_item()
         if not source_item:
@@ -55,6 +57,6 @@ def wilberries_scraper():
         items = scrape(source_item)
         now = datetime.datetime.now()
         if not items:
-            source_db.save_to_error_mk('wilberries_error', source_item, now)
+            source_db.save_to_error_mk("wilberries_error", source_item, now)
         for item in items:
-            source_db.save_to_neural('neural', item)
+            source_db.save_to_neural("neural", item)
