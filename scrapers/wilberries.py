@@ -37,10 +37,10 @@ def scrape(source_item: SourceItem):
                         ))
                         break
             except Exception as e:
-                print(e)
+                print("Wilberries:", e)
                 pass
     except Exception as e:
-        print(e)
+        print("Wilberries:", e)
         return []
     return result
 

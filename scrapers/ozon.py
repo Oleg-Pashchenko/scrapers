@@ -32,7 +32,7 @@ def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
                     price = description_block.split('₽')[0].split('>')[-1]
                     price = float(''.join(price.replace('thinsp;', '').replace(',', '.').split()))
                 except:
-                    price = -1
+                    price = float(-1)
                 descr = description_block.split('</span></span></a>')[0].split('<span>')[-1].strip()
                 ozon_item_link = item.findNext("a")
                 img = ozon_item_link.find("img").get('src')
@@ -49,11 +49,11 @@ def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
                     )
                 )
             except Exception as e:
-                print(e)
+                print("Ozon:", e)
                 pass
         driver.quit()
     except Exception as e:
-        print(e)
+        print("Ozon:", e)
         ozon_items = []
     return ozon_items
 
