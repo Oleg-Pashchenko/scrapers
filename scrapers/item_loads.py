@@ -4,7 +4,7 @@ import json
 from misc.models import MarketPlaceItem
 
 
-def load_item(item: MarketPlaceItem):
+def load_ozon(item: MarketPlaceItem):
     client_id = '855070'
     api_key = 'd1fde5e2-2bd2-4aa8-9e11-6c19de58e278'
     headers = {
