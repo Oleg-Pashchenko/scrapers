@@ -5,6 +5,7 @@ import psycopg2
 
 from misc.models import SourceItem, MarketPlaceItem
 from misc.secrets import secret_info
+from scrapers.item_loads import load_ozon
 
 
 class PresentationScraper:
@@ -47,6 +48,23 @@ class PresentationScraper:
     def write_result(self, id):
         self.cur.execute("SELECT * FROM presentation WHERE id = %s;", (id,))
         record = self.cur.fetchone()
+        si = SourceItem(
+                id=record[5],
+                link=record[6],
+                photo=record[7],
+                name=record[8],
+                price=record[9],
+                creation_date=record[10],
+            )
+        item = MarketPlaceItem(
+                id=record[0],
+                link=record[1],
+                photo=record[2],
+                name=record[3],
+                price=record[4],
+                source_item=si,
+            )
+        load_ozon(item)
         self.cur.execute(
             f"""INSERT INTO result (id, link, photo, name, 
                         price, source_id, source_link, source_photo, source_name, source_price, source_creation_date)

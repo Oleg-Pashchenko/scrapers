@@ -52,6 +52,7 @@ class SourceScraper:
         self.conn.commit()
 
     def save_to_mk(self, table_name, data):
+        data.name = self.prepare_name_to_mk(data.name)
         self.cur.execute(
             f"""INSERT INTO {table_name} (id, link, photo, name, price, creation_date)
          SELECT %s, %s, %s, %s, %s, %s WHERE NOT EXISTS (SELECT 1 FROM {table_name} WHERE id=%s)""",
@@ -69,3 +70,32 @@ class SourceScraper:
 
     def close_connection(self):
         self.conn.close()
+
+    def prepare_name_to_mk(self, name):
+        name = name.split()
+        digits = '1234567890'
+        alphabet_to_delete = 'abcdefghijklmnopqrstuvwxyz' + digits
+        new_name = []
+        for word in name:
+            if word.isdigit() and len(word) > 4:
+                continue
+            if 'арт.' in word:
+                continue
+            if 'г.' in word:
+                continue
+            delete_it = True
+            for symbol in word.lower():
+                if symbol not in alphabet_to_delete:
+                    delete_it = False
+                    break
+
+            is_str_contain_digits = False
+            for symbol in word.lower():
+                if symbol in digits:
+                    is_str_contain_digits = True
+                    break
+
+            if delete_it and is_str_contain_digits and len(word) > 5:
+                continue
+            new_name.append(word)
+        return ' '.join(new_name)

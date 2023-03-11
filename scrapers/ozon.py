@@ -3,7 +3,6 @@ import time
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
 
 from db.marketplace import MarketPlaceScraper
 from misc.models import SourceItem, MarketPlaceItem
@@ -13,7 +12,6 @@ from misc.secrets import secret_info
 
 def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
     try:
-    #if True:
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
@@ -37,7 +35,6 @@ def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
         ozon_items = []
         for item in items:
             try:
-            #if True:
                 description_block = str(item)
                 try:
                     price = description_block.split("₽")[0].split(">")[-1]
@@ -82,13 +79,16 @@ def scrape(source_item: SourceItem) -> list[MarketPlaceItem]:
 def ozon_scraper():
     source_db = MarketPlaceScraper(table_name="ozon")
     while True:
-        source_item = source_db.get_source_item()
-        if not source_item:
-            time.sleep(5)
-            continue
-        items = scrape(source_item)
-        now = datetime.datetime.now()
-        if not items:
-            source_db.save_to_error_mk("ozon_error", source_item, now)
-        for item in items:
-            source_db.save_to_neural("neural", item)
+        try:
+            source_item = source_db.get_source_item()
+            if not source_item:
+                time.sleep(5)
+                continue
+            items = scrape(source_item)
+            now = datetime.datetime.now()
+            if not items:
+                source_db.save_to_error_mk("ozon_error", source_item, now)
+            for item in items:
+                source_db.save_to_neural("neural", item)
+        except:
+            pass

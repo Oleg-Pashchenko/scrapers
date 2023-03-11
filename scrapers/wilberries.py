@@ -50,13 +50,16 @@ def scrape(source_item: SourceItem):
 def wilberries_scraper():
     source_db = MarketPlaceScraper(table_name="wilberries")
     while True:
-        source_item = source_db.get_source_item()
-        if not source_item:
-            time.sleep(5)
-            continue
-        items = scrape(source_item)
-        now = datetime.datetime.now()
-        if not items:
-            source_db.save_to_error_mk("wilberries_error", source_item, now)
-        for item in items:
-            source_db.save_to_neural("neural", item)
+        try:
+            source_item = source_db.get_source_item()
+            if not source_item:
+                time.sleep(5)
+                continue
+            items = scrape(source_item)
+            now = datetime.datetime.now()
+            if not items:
+                source_db.save_to_error_mk("wilberries_error", source_item, now)
+            for item in items:
+                source_db.save_to_neural("neural", item)
+        except:
+            pass

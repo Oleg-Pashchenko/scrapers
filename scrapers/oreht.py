@@ -42,13 +42,16 @@ def scrape(item_code: int) -> SourceItem | None:
 def oreht_scraper():
     source_db = SourceScraper(table_name="oreht_positions")
     while True:
-        code, date = source_db.get_code()
-        if not code:
-            time.sleep(5)
-            continue
-        item = scrape(code)
-        now = datetime.datetime.now()
-        if not item:
-            source_db.save_to_error_db("oreht_errors", code, date, now)
-        source_db.save_to_mk("ozon", item)
-        source_db.save_to_mk("wilberries", item)
+        try:
+            code, date = source_db.get_code()
+            if not code:
+                time.sleep(5)
+                continue
+            item = scrape(code)
+            now = datetime.datetime.now()
+            if not item:
+                source_db.save_to_error_db("oreht_errors", code, date, now)
+            source_db.save_to_mk("ozon", item)
+            source_db.save_to_mk("wilberries", item)
+        except:
+            pass

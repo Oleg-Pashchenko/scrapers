@@ -30,12 +30,15 @@ def compare_images(img1, img2):
 def neural_block_scraper():
     source_db = NeuralScraper()
     while True:
-        source_item = source_db.get_item()
-        if not source_item:
-            time.sleep(5)
+        try:
+            source_item = source_db.get_item()
+            if not source_item:
+                time.sleep(5)
+                continue
+            source_db.write_presentation(source_item)
             continue
-        source_db.write_presentation(source_item)
-        continue
+        except:
+            pass
         if compare_images(source_item.photo, source_item.source_item.photo):
             source_db.write_presentation(source_item)
         else:
