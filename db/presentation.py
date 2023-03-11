@@ -64,6 +64,7 @@ class PresentationScraper:
                 price=record[4],
                 source_item=si,
             )
+        print(item)
         load_ozon(item)
         self.cur.execute(
             f"""INSERT INTO result (id, link, photo, name, 
