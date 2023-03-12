@@ -17,7 +17,7 @@ def load_ozon(item: MarketPlaceItem):
             {
                 "sku": str(item.id),
                 "name": item.name,
-                "offer_id": "РСВ" + str(item.source_item.id),
+                "offer_id": "РСВ-" + str(item.source_item.id) + "РСВ-" + str(item.source_item.id),
                 "currency_code": "RUB",
                 "old_price": "10000",
                 "price": "10000",
