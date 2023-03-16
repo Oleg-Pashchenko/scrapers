@@ -5,8 +5,8 @@ from misc.models import MarketPlaceItem
 
 
 def load_ozon(item: MarketPlaceItem):
-    client_id = '855070'
-    api_key = 'd1fde5e2-2bd2-4aa8-9e11-6c19de58e278'
+    client_id = '667260'
+    api_key = 'fd6087c6-de11-43ee-a233-4540cb92998a'
     headers = {
         'Client-Id': client_id,
         'Api-Key': api_key
