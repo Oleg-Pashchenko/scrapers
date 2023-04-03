@@ -1,7 +1,7 @@
 import requests
 import json
 
-from misc.models import MarketPlaceItem
+from misc.models import MarketPlaceItem, SourceItem
 
 
 def load_ozon(item: MarketPlaceItem):
@@ -28,3 +28,4 @@ def load_ozon(item: MarketPlaceItem):
     }
     response = requests.post(url, headers=headers, data=json.dumps(data))
     print(response.text)
+

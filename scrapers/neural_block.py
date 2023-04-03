@@ -1,6 +1,7 @@
 import time
 import numpy as np
 from db.neural import NeuralScraper
+from misc import copy_error_clear
 #import tensorflow as tf
 
 from views.content import messages
@@ -35,11 +36,15 @@ def neural_block_scraper():
             if not source_item:
                 time.sleep(5)
                 continue
-            source_db.write_presentation(source_item)
+            if copy_error_clear.has_not_block(source_item):
+                source_db.write_presentation(source_item)
+            else:
+                source_db.write_error(source_item)
+            source_db.delete_item(source_item.id)
             continue
         except:
             pass
-        if compare_images(source_item.photo, source_item.source_item.photo):
-            source_db.write_presentation(source_item)
-        else:
-            source_db.write_error(source_item)
+        #if compare_images(source_item.photo, source_item.source_item.photo):
+        #    source_db.write_presentation(source_item)
+        #else:
+        #    source_db.write_error(source_item)
